@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from '../styles/Home.module.css'
 import RoomsContainer from '../containers/Rooms';
 import { useSockets } from '../context/socket.context';
@@ -11,13 +11,19 @@ export default function Home() {
 
   function handleSetUsername() {
     const value = usernameRef.current.value;
-    
+
     if (!value) return;
 
     setUsername(value);
 
     localStorage.setItem("username", value);
   };
+
+  useEffect(() => {
+    if (usernameRef) { 
+      usernameRef.current.value = localStorage.getItem("username") || "";
+    };
+  }, []);
 
   return (
     <div>
