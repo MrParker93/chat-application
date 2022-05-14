@@ -11,9 +11,8 @@ export default function Home() {
 
   function handleSetUsername() {
     const value = usernameRef.current.value;
-    if (!value) {
-      return;
-    };
+    
+    if (!value) return;
 
     setUsername(value);
 

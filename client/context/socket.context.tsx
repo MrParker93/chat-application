@@ -7,6 +7,8 @@ interface Context {
     socket: Socket;
     username?: string;
     setUsername: Function;
+    messages?: {message: string, time: string, userrname: string}[];
+    setMessages: Function;
     roomID?: string;
     rooms: object;
 };
@@ -16,7 +18,9 @@ const socket = io(SOCKET_URL);
 const SocketContext = createContext<Context>({
     socket,
     setUsername: () => false,
-    rooms: {}, 
+    setMessages: () => false,
+    rooms: {},
+    messages: [], 
 });
 
 function SocketsProvider(props: any) {
@@ -24,14 +28,28 @@ function SocketsProvider(props: any) {
 const [username, setUsername] = useState("");
 const [roomID, setRoomID] = useState("");
 const [rooms, setRooms] = useState({});
+const [messages, setMessages] = useState([]);
 
 socket.on(EVENTS.SERVER.ROOMS, (value) => {
     setRooms(value);
 });
 
+socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
+    setRoomID(value);
+
+    setMessages([]);
+});
+
+socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
+    setMessages([
+        ...messages,
+        { message, username, time }
+    ]);
+})
+
     return (
         <SocketContext.Provider
-            value={{ socket, username, setUsername, roomID, rooms }}
+            value={{ socket, username, setUsername, roomID, rooms, messages, setMessages }}
             {...props}
         />
     );
