@@ -7,7 +7,7 @@ interface Context {
     socket: Socket;
     username?: string;
     setUsername: Function;
-    messages?: {message: string, time: string, userrname: string}[];
+    messages?: {message: string, time: string, username: string}[];
     setMessages: Function;
     roomID?: string;
     rooms: object;
@@ -46,17 +46,14 @@ socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
     setMessages([]);
 });
 
-socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
-
-    if (!document.hasFocus()) {
-        document.title = "New message...";
-    };
-
-    setMessages([
-        ...messages,
-        { message, username, time }
-    ]);
-})
+useEffect(() => {
+    socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
+        if (!document.hasFocus()) {
+            document.title = "New Message...";
+        };
+        setMessages((messages) => [...messages, { message, username, time }]);
+    });
+}, [socket]);
 
     return (
         <SocketContext.Provider

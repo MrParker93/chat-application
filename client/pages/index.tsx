@@ -4,7 +4,6 @@ import RoomsContainer from '../containers/Rooms';
 import { useSockets } from '../context/socket.context';
 import MessagesContainer from '../containers/Messages';
 
-
 export default function Home() {
   const { socket, username, setUsername } = useSockets();
   const usernameRef = useRef(null);
@@ -31,7 +30,7 @@ export default function Home() {
         <div className={styles.usernameWrapper}>
           <div className={styles.usernameInner}>
             <input placeholder="Username" ref={usernameRef} />
-            <button onClick={handleSetUsername}>START</button>
+            <button className="btn" onClick={handleSetUsername}>START</button>
           </div>
         </div>  
       )}
