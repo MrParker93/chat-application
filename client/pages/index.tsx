@@ -5,6 +5,7 @@ import { useSockets } from '../context/socket.context';
 import MessagesContainer from '../containers/Messages';
 
 export default function Home() {
+
   const { socket, username, setUsername } = useSockets();
   const usernameRef = useRef(null);
 

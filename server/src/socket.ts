@@ -16,10 +16,9 @@ const EVENTS = {
     }
 };
 
-
 const rooms: Record<string, { name: string }> = {};
 
-function socket({ io }: {io: Server}) {
+function socket({ io }: { io: Server }) {
     logger.info(`Sockets enabled`);
 
     io.on(EVENTS.connection, (socket: Socket) => {

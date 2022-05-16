@@ -15,6 +15,7 @@ interface Context {
 
 const socket = io(SOCKET_URL);
 
+
 const SocketContext = createContext<Context>({
     socket,
     setUsername: () => false,
